@@ -1,0 +1,223 @@
+import UIKit
+
+for i in 0...3 {
+    let number = Double.random(in: 0..<10)
+    
+    print("\(i) .- " + String(format:"%.4f",number))
+}
+
+print();
+
+var arrayInt:[Int] = [1]
+
+arrayInt.removeAll()
+
+/**Ejercicio 1**/
+
+for _ in 0...12 {
+    arrayInt.append(Int.random(in: 0...100))
+}
+
+print(arrayInt);
+
+var sumaPar = 0
+
+for int in arrayInt {
+    if int%2==0 {
+        sumaPar+=int
+    }
+}
+
+print("Suma de los números pares: " + sumaPar.codingKey.stringValue)
+
+print();
+
+for i in -5..<10 where i%2 == 0 {
+    print("\(i) es par")
+}
+
+var array:[String] = ["cero", "uno", "dos"]
+
+print();
+
+for value in array{
+    print(value);
+}
+
+print();
+
+for (i,value) in array.enumerated(){
+    print("\(i) .- \(value)")
+}
+
+print();
+
+for value in array {
+    print(value.uppercased());
+}
+
+array.removeAll();
+print("Capacidad array: " + array.capacity.codingKey.stringValue)
+
+for i in 0...10 {
+    array.append(String(i));
+    print(array[i]);
+}
+
+for i in stride(from: 4, through: 40, by: +2){
+    array.append(String(i))
+}
+
+print(array)
+
+let elementosBorrar:[String] = ["2", "9", "10", "15"];
+
+for value in elementosBorrar {
+    if let indice = array.firstIndex(of: value) {
+        array.remove(at: indice)
+    }
+}
+
+print("Duplicados de los elementos a borrar existen:")
+print(array)
+
+for value in elementosBorrar {
+    while let indice = array.firstIndex(of: value) {
+        array.remove(at: indice)
+    }
+}
+print("Duplicados de los elementos a borrar no existen:")
+print(array)
+
+var buscar:[String] = ["5", "10"]
+
+var indice:Int?
+
+for value in buscar {
+    if array.firstIndex(of: value) != nil {
+        print("Valor " + value + " existe en el array")
+    }else {
+        print("Valor " + value + " no existe en el array")
+    }
+}
+
+var dic:[String:Int] = ["pedro":2, "pepillo":10, "juan":5]
+
+print(dic)
+
+dic["antonio"] = 34
+
+print(dic)
+
+for (clave,valor) in dic {
+    print("[\(clave)] -> \(valor)")
+}
+
+for par in dic {
+    print("[\(par.key)] -> \(par.value)")
+}
+
+for clave in dic.keys {
+    print(clave)
+}
+
+for valor in dic.values {
+    print(valor)
+}
+
+/**Ejercicio 2**/
+
+var diccionario:[String:[Int]] = [:]
+diccionario["andres"] = [2, 4]
+diccionario["antonio"] = [3, 5, 6, 7]
+diccionario["juan"] = [1, 4, 3]
+diccionario["emilia"] = []
+//diccionario["emilia"]?.append(5);
+diccionario["emilia"]!.append(5);
+
+//diccionario["emilia"] = [5]
+
+print(diccionario)
+
+/**Ejercicio 3**/
+
+print(diccionario.sorted(by: {$0.key < $1.key}))
+
+for par in diccionario.sorted(by: {$0.key < $1.key}) { print("\(par.key) --> \(par.value)")
+}
+
+print("\nCapacidad en orden ascendente")
+
+for par in diccionario.sorted(by: {$0.value.capacity < $1.value.capacity}) { print("\(par.key) --> \(par.value)")
+}
+
+print("\nCapacidad en orden descendente")
+
+for par in diccionario.sorted(by: {$0.value.count > $1.value.count}) { print("\(par.key) --> \(par.value)")
+}
+
+print()
+
+/**Ejercicio 4**/
+
+func notaMedia(notas:[Int]) -> String {
+    var suma:Float = 0
+    for i in notas{
+        suma += Float(i)
+    }
+    return (String(format:"%.2f", suma/Float(notas.count)))
+}
+
+for par in diccionario.sorted(by: {notaMedia(notas: $0.value) > notaMedia(notas: $1.value)}){
+    print("\(par.key) --> \(notaMedia(notas: par.value))");
+}
+
+print()
+
+/**Ejercicio 5**/
+
+func estadisticas (notas:[Int]) -> (max: Int, min: Int, suma:Int, med:String) {
+    var suma:Float = 0
+    for i in notas {
+        suma += Float(i)
+    }
+    return (notas.count > 1 ? notas.max()! : -1, notas.count > 1 ? notas.min()! : -1, Int(suma), String(format:"%.2f", suma/Float(notas.count)))
+}
+
+for par in diccionario {
+    let est = estadisticas(notas:par.value)
+    print("\(par.key) --> (max: \(est.max), min: \(est.min), suma: \(est.suma), med: \"\(est.med)\")");
+}
+
+print()
+
+/**Fin ejercicios**/
+
+let andres = estadisticas(notas:diccionario["andres"]!)
+
+let prueba = estadisticas(notas:[Int]([8,3,4,3,3,3,3]))
+print(prueba.max)
+print(prueba.min)
+print(prueba.suma)
+print(prueba.med)
+
+let array2:[String] = ["pepe", "juana", "emilia", "santiago"]
+func less (_ s1: String, _ s2: String) -> Bool {
+    return s1 < s2
+}
+func greater (_ s1: String, _ s2: String) -> Bool {
+    return s1 > s2
+}
+
+let arrayLess = array2.sorted(by: less)
+let arrayGreater = array2.sorted(by: greater)
+
+print("array original: \(array2)")
+print("array ordenado de menor a mayor: \(arrayLess)")
+print("array ordenado de mayor a menor: \(arrayGreater)")
+
+let arrayLess2 = array2.sorted(by: { (s1:String, s2:String) -> Bool in return s1 < s2 })
+let arrayGreater2 = array2.sorted(by: { (s1:String, s2:String) -> Bool in return s1 > s2 })
+
+print("array ordenado de menor a mayor: \(arrayLess2)")
+print("array ordenado de mayor a menor: \(arrayGreater2)")
